@@ -4,3 +4,5 @@
 .env
 # ignore caches
 __pycache__/
+# no need to push node_modules either
+node_modules/
