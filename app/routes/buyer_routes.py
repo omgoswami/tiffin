@@ -7,7 +7,7 @@ buyer_bp = Blueprint('buyer', __name__)
 buyer_schema = BuyerSchema()
 buyers_schema = BuyerSchema(many=True)
 
-@buyer_bp.route('/', methods=['POST'])
+@buyer_bp.route('/create', methods=['POST'])
 def create_buyer():
     data = request.json
     new_buyer = Buyer(

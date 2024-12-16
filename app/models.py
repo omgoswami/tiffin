@@ -9,6 +9,9 @@ class CustomUser(db.Model):
     is_buyer = db.Column(db.Boolean, default=False)
     is_seller = db.Column(db.Boolean, default=False)
 
+    def __repr__(self):
+        return f"CustomUser {self.username}"
+
 class Buyer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('custom_user.id'), nullable=False)
