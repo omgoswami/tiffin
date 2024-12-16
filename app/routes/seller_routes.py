@@ -7,7 +7,7 @@ seller_bp = Blueprint('seller', __name__)
 seller_schema = SellerSchema()
 sellers_schema = SellerSchema(many=True)
 
-@seller_bp.route('/', methods=['POST'])
+@seller_bp.route('/create', methods=['POST'])
 def create_seller_profile():
     data = request.json
     new_seller = Seller(
