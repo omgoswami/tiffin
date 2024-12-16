@@ -1,5 +1,25 @@
 {
   "dependencies": {
-    "flask": "^0.2.10"
+    "flask": "^0.2.10",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "name": "tiffin",
+  "description": "Dev Setup:  \r     1. create your virtual environment: ```python -m venv .venv``` OR ```python3 -m venv .venv```  \r     2. activate virtual environment:  \r         a. macOS/Linux: ```source venv/bin/activate```  \r         b. Windows: ```venv\\Scripts\\activate```  \r     3. install necessary packages: ```pip install -r requirements.txt```  \r     4. check what packages have been installed with ```pip list``` or ```pip freeze```",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build:tailwind": "npx tailwindcss -i ./app/static/css/input.css -o ./app/static/css/style.css",
+    "dev": "npx tailwindcss -i ./app/static/css/input.css -o ./app/static/css/style.css --watch",
+    "start": "python manage.py",
+    "build": "npm run build:tailwind"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16"
   }
 }
