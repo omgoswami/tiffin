@@ -11,10 +11,16 @@ sellers_schema = SellerSchema(many=True)
 def create_seller_profile():
     data = request.json
     new_seller = Seller(
-        user_id=data['user_id'],
         bio=data.get('bio'),
         address=data.get('address'),
     )
+    # TODO: probably update here instead of add with separate screen for sellers
     db.session.add(new_seller)
     db.session.commit()
     return seller_schema.jsonify(new_seller), 201
+
+@seller_bp.route('/getall', methods=['GET'])
+def get_users():
+    all_users = Seller.query.all()
+    result = sellers_schema.dump(all_users)
+    return sellers_schema.jsonify(result)
