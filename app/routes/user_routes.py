@@ -9,14 +9,7 @@ users_schema = CustomUserSchema(many=True)
 
 @user_bp.route('/create', methods=['POST'])
 def create_user():
-    '''data = request.json
-    new_user = CustomUser(
-        username=data['username'],
-        email=data['email'],
-        password=data['password'],  # Use hashed password in production
-        is_buyer=data.get('is_buyer', False),
-        is_seller=data.get('is_seller', False)
-    )'''
+    # TODO: add in is_buyer and is_seller
     user = request.form.get('username')
     email = request.form.get('email')
     pwd = request.form.get('password')
@@ -31,13 +24,6 @@ def create_user():
 
 @user_bp.route('/getall', methods=['GET'])
 def get_users():
-    users = db.session.query(CustomUser)
-    ret = []
-    for user in users:
-        user_obj = CustomUser(username=user.username,
-                              email=user.email,
-                              password=user.password,
-                              is_buyer=False,
-                              is_seller=False)
-        ret.append(user_obj)
-    return users_schema.dump(ret)
+    all_users = CustomUser.query.all()
+    result = users_schema.dump(all_users)
+    return users_schema.jsonify(result)
