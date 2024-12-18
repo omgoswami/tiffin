@@ -18,7 +18,7 @@ def create_buyer():
     return buyer_schema.jsonify(new_buyer), 201
 
 @buyer_bp.route('/getall', methods=['GET'])
-def get_users():
+def get_buyers():
     all_users = Buyer.query.all()
     result = buyers_schema.dump(all_users)
     return buyers_schema.jsonify(result)
