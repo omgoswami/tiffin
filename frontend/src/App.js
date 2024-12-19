@@ -1,11 +1,20 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/Home/HomePage';
+import DashboardPage from './pages/Dashboard/DashboardPage';
+import NotFoundPage from './pages/NotFoundPage';
+
 const App = () => {
-    return (
-      <div className="bg-blue-500 text-white text-center py-10">
-        <h1 className="text-4xl font-bold">Hello, Tailwind!</h1>
-        <p className="mt-4 text-lg">Tailwind CSS is now configured in your React app!</p>
-      </div>
-    );
-  };
-  
-  export default App;
-  
+  return (
+    <Router>
+      <Routes>
+        {/* Define routes */}
+        <Route path="/" element={<HomePage />} /> {/* Default to HomePage */}
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="*" element={<NotFoundPage />} /> {/* Catch-all for 404 */}
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;

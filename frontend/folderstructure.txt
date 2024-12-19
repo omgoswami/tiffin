@@ -1,0 +1,64 @@
+src/
+├── assets/        # Static files like images, fonts, and icons
+├── components/    # Reusable UI components
+├── layouts/       # Layout components (e.g., Header, Footer, Sidebar)
+├── pages/         # Pages that correspond to routes
+├── hooks/         # Custom React hooks
+├── context/       # Context API files
+├── styles/        # Global and component-specific styles
+├── utils/         # Utility functions
+├── App.js         # Main application component
+└── index.js       # React DOM rendering
+
+src/components/
+├── Dialogs/          # All dialog box components
+│   ├── ConfirmDialog.jsx
+│   ├── SessionEndDialog.jsx
+│   └── DialogBase.jsx  # Base reusable dialog
+├── Buttons/          # Button components
+│   ├── PrimaryButton.jsx
+│   ├── IconButton.jsx
+├── Inputs/           # Input components
+│   ├── TextInput.jsx
+│   ├── Checkbox.jsx
+├── Sidebar/          # Sidebar components
+│   ├── Sidebar.jsx
+│   └── SidebarItem.jsx
+└── Navbar/           # Navbar components
+    ├── Navbar.jsx
+    ├── NavbarItem.jsx
+
+src/layouts/
+├── MainLayout.jsx    # Main layout with header, sidebar, and footer
+├── AuthLayout.jsx    # Layout for authentication pages
+└── DashboardLayout.jsx
+
+src/pages/
+├── Home/
+│   ├── HomePage.jsx
+│   └── HomePage.test.jsx
+├── Dashboard/
+│   ├── DashboardPage.jsx
+│   ├── DashboardStats.jsx
+│   └── Sidebar.jsx  # Feature-specific sidebar
+├── Auth/
+│   ├── LoginPage.jsx
+│   ├── RegisterPage.jsx
+└── ErrorPage.jsx     # 404 and error pages
+
+src/hooks/
+├── useFetchData.js    # Hook for fetching data
+├── useAuth.js         # Hook for authentication logic
+└── useDialog.js       # Hook for dialog management
+
+src/styles/
+├── base.css           # Tailwind imports (@tailwind base, components, utilities)
+├── globals.css        # Global overrides and utility classes
+└── components/
+    ├── dialog.css     # Component-specific styles (if needed)
+    ├── button.css
+
+src/utils/
+├── api.js             # API calls
+├── formatDate.js      # Utility for date formatting
+└── constants.js       # Application-wide constants
