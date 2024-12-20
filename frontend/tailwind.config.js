@@ -4,7 +4,12 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}", // Add this line to scan your React files
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#58606e",
+        secondary: "#0043a8"
+    },
   },
+},
   plugins: [],
 };
