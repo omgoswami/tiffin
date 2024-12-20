@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import ProfileTabs from "../../components/Profile/ProfileTabs";
 import FeaturedGrid from "../../components/Home/FeaturedGrid";
+import { useParams } from "react-router-dom";
 
 const ProfilePage = () => {
+  const user = useParams();
   const [listings, setListings] = useState([
     { image: "/assets/dish1.jpg", name: "Grilled Cheese", description: "Leftovers from dinner!", endTime: "20:00" },
     { image: "/assets/dish2.jpg", name: "Tacos", description: "Fresh and spicy!", endTime: "21:00" },
@@ -18,7 +20,7 @@ const ProfilePage = () => {
       <div className="flex items-center space-x-4">
         <img src="/assets/cook1.jpg" alt="Profile" className="w-24 h-24 rounded-full object-cover" />
         <div>
-          <h1 className="text-2xl font-bold">Chef Mario</h1>
+          <h1 className="text-2xl font-bold">Chef {user.username}</h1>
           <p className="text-gray-600">Specializes in Italian and Mediterranean cuisine.</p>
         </div>
       </div>

@@ -23,7 +23,7 @@ function App() {
           <Route path="/explore" element={<ExplorePage />} />
           <Route path="/food/:id" element={<FoodDetails />} />
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/:username" element={<ProfilePage />} />
           <Route path="/add-listing" element={<PostListingPage />} />
           <Route path="/messages" element={<MessagesPage />} />
           <Route path="/messages/:id" element={<MessageThreadPage />} />
