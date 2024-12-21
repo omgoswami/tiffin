@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from server import db
 from server.models import CustomUser, Buyer, Seller
 from server.serializers import CustomUserSchema
@@ -15,19 +15,44 @@ def login():
 
     # TODO: implement hashing
     if user and user.password == password:
+        print("this is the user id: ", user.id)
+        session['user_id'] = user.id
+        seller = Seller.query.filter_by(user_id=user.id).first()
+        if seller:
+            print("seller id: ", seller.id)
+            session['seller_id'] = seller.id
+        else:
+            print("seller is none")
+        buyer = Buyer.query.filter_by(user_id=user.id).first()
+        if buyer:
+            print("buyer id: ", buyer.id)
+            session['buyer_id'] = buyer.id
         return jsonify({"message": "Login successful", "username": user.username}), 200
     else:
         return jsonify({"message": "Invalid email or password"}), 401
 
+@user_bp.route('/check_session', methods=['GET'])
+def check_session():
+    user_id = session.get('user_id')
+    if user_id:
+        return jsonify({'loggedIn': True})
+    return jsonify({'loggedIn': False})
+
 @user_bp.route('/create', methods=['POST'])
 def create_user():
-    user = request.form.get('username')
-    email = request.form.get('email')
-    pwd = request.form.get('password')
-    is_buyer = True if 'True' in request.form.get('is_buyer') else False
-    is_seller = True if 'True' in request.form.get('is_seller') else False
+    data = request.get_json()  
+
+    required_fields = ['username', 'email', 'password', 'is_buyer', 'is_seller']
+    if not all(field in data for field in required_fields):
+        return jsonify({"success": False, "message": "Missing required fields"}), 400
+
+    username = data['username']
+    email = data['email']
+    pwd = data['password']  # TODO: Hash the password
+    is_buyer = data['is_buyer']
+    is_seller = data['is_seller']
     new_user = CustomUser(
-        username=user,
+        username=username,
         email=email,
         password=pwd,
         is_buyer=is_buyer,
@@ -50,6 +75,19 @@ def create_user():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+    
+    user = CustomUser.query.filter_by(username=username).first()
+    session['user_id'] = user.id
+    seller = Seller.query.filter_by(user_id=user.id).first()
+    if seller:
+        print("seller id: ", seller.id)
+        session['seller_id'] = seller.id
+    else:
+        print("seller is none")
+    buyer = Buyer.query.filter_by(user_id=user.id).first()
+    if buyer:
+        print("buyer id: ", buyer.id)
+        session['buyer_id'] = buyer.id
 
     return user_schema.jsonify(new_user), 201
 

@@ -13,6 +13,7 @@ import MessagesPage from "./pages/Messages/MessagesPage";
 import MessageThreadPage from "./pages/Messages/MessageThreadPage";
 import OrdersPage from "./pages/Orders/OrdersPage";
 import SafeMeetingSpotPage from "./pages/SafeMeetingSpotPage";
+import SignupPage from "./pages/Auth/SignupPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/signup" element={<SignupPage />} />
       </Routes>
     </Router>
   );
