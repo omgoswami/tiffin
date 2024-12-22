@@ -31,6 +31,11 @@ def login():
     else:
         return jsonify({"message": "Invalid email or password"}), 401
 
+@user_bp.route('/logout', methods=['POST'])
+def logout():
+    session.clear()
+    return jsonify({"message": "Logged out successfully", "redirect": "/"})
+
 @user_bp.route('/check_session', methods=['GET'])
 def check_session():
     user_id = session.get('user_id')
