@@ -20,8 +20,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;1. user login, with type of user saved in session, and logout  
 &nbsp;&nbsp;&nbsp;&nbsp;2. create user  
 &nbsp;&nbsp;&nbsp;&nbsp;3. post listing (seller can add item to database)  
+&nbsp;&nbsp;&nbsp;&nbsp;4. seller's items currently displayed on seller profile  
 ### In-progress Features  
 &nbsp;&nbsp;&nbsp;&nbsp;1. stateful UX -- buyers and sellers should only see what is relevant to them  
-&nbsp;&nbsp;&nbsp;&nbsp;2. display items that seller has made available  
+&nbsp;&nbsp;&nbsp;&nbsp;2. make sure that only items marked "available" are displayed (tweak SQL query in /sellers/items)  
 ### Next-up  
 &nbsp;&nbsp;&nbsp;&nbsp;1. allow buyers to view sellers and place orders  
