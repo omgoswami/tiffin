@@ -9,6 +9,7 @@ seller_bp = Blueprint('seller', __name__)
 seller_schema = SellerSchema()
 sellers_schema = SellerSchema(many=True)
 item_schema = ItemSchema()
+items_schema = ItemSchema(many=True)
 
 @seller_bp.route('/create', methods=['POST'])
 def create_seller_profile():
@@ -78,7 +79,7 @@ def get_items():
             return seller_schema.jsonify({"error": "Seller with this id not found"}), 404
 
         items = Item.query.filter_by(seller_id=seller_id).all()
-        return seller_schema.dump(items)
+        return items_schema.dump(items)
     
     except Exception as e:
         return seller_schema.jsonify({"error": str(e)}), 500

@@ -44,7 +44,7 @@ const Sidebar = () => {
         <a href="/" className="hover:bg-gray-700 p-2 rounded">Home</a>
         <a href="/dashboard" className="hover:bg-gray-700 p-2 rounded">Dashboard</a>
         {loggedIn ? (<button onClick={handleLogout} className="hover:bg-gray-700 p-2 rounded text-left">Logout</button>) 
-                  : (<button> <a href="/login" className="hover:bg-gray-700 p-2 rounded"> Login</a></button>)}
+                  : (<button> <a href="/login" className="hover:bg-gray-700 p-2 rounded">Login</a></button>)}
       </nav>
     </div>
   );
