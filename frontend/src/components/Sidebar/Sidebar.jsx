@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { checkSession } from "../../utils/session";
 
 const Sidebar = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
+    const verifySession = async () => {
+      const {loggedIn, username} = await checkSession();
+      setLoggedIn(loggedIn);
+    };
+    verifySession();
+  }, []);
+
+  /*useEffect(() => {
     const checkSession = async () => {
       try {
         const response = await fetch("/users/check_session");
@@ -16,7 +25,8 @@ const Sidebar = () => {
       }
     };
     checkSession();
-  }, []);
+  }, []);*/
+
 
   const handleLogout = async () => {
     try {

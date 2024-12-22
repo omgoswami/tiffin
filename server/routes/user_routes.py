@@ -17,6 +17,7 @@ def login():
     if user and user.password == password:
         print("this is the user id: ", user.id)
         session['user_id'] = user.id
+        session['username'] = user.username
         seller = Seller.query.filter_by(user_id=user.id).first()
         if seller:
             print("seller id: ", seller.id)
@@ -40,8 +41,11 @@ def logout():
 def check_session():
     user_id = session.get('user_id')
     if user_id:
-        return jsonify({'loggedIn': True})
-    return jsonify({'loggedIn': False})
+        return jsonify({
+            'loggedIn': True,
+            'username': session.get('username')
+            })
+    return jsonify({'loggedIn': False, 'username': None})
 
 @user_bp.route('/create', methods=['POST'])
 def create_user():
@@ -83,6 +87,7 @@ def create_user():
     
     user = CustomUser.query.filter_by(username=username).first()
     session['user_id'] = user.id
+    session['username'] = user.username
     seller = Seller.query.filter_by(user_id=user.id).first()
     if seller:
         print("seller id: ", seller.id)
