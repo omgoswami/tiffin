@@ -69,8 +69,9 @@ def add_item():
     return item_schema.jsonify(new_item), 201
     
 
-@seller_bp.route('/<seller_id>/items', methods=['GET'])
-def get_items(seller_id):
+@seller_bp.route('/items', methods=['GET'])
+def get_items():
+    seller_id = session['seller_id']
     try:
         seller = Seller.query.get(seller_id)
         if not seller:

@@ -6,8 +6,22 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. Windows: ```venv\Scripts\activate```  
 &nbsp;&nbsp;&nbsp;&nbsp;3. install necessary packages: ```pip install -r requirements.txt```  
 &nbsp;&nbsp;&nbsp;&nbsp;4. check what packages have been installed with ```pip list``` or ```pip freeze```
+&nbsp;&nbsp;&nbsp;&nbsp;5. run ```npm install``` in frontend directory
 
 ## Running the Application:
-&nbsp;&nbsp;&nbsp;&nbsp;1. Ensure virtual environment is running
-&nbsp;&nbsp;&nbsp;&nbsp;2. ```python app.py```
-&nbsp;&nbsp;&nbsp;&nbsp;3. Open the link that appears in the terminal in browser
+&nbsp;&nbsp;&nbsp;&nbsp;1. Ensure virtual environment is running  
+&nbsp;&nbsp;&nbsp;&nbsp;2. ```python app.py``` in top level directory  
+&nbsp;&nbsp;&nbsp;&nbsp;3. cd into frontend
+&nbsp;&nbsp;&nbsp;&nbsp;4. run ```npm start```  
+&nbsp;&nbsp;&nbsp;&nbsp;5. This should open localhost:3000 in browser, where app can be used  
+
+## Dev Overview  
+### Working Features  
+&nbsp;&nbsp;&nbsp;&nbsp;1. user login, with type of user saved in session  
+&nbsp;&nbsp;&nbsp;&nbsp;2. create user  
+&nbsp;&nbsp;&nbsp;&nbsp;3. post listing (seller can add item to database)  
+### In-progress Features  
+&nbsp;&nbsp;&nbsp;&nbsp;1. stateful UX -- buyers and sellers should only see what is relevant to them  
+&nbsp;&nbsp;&nbsp;&nbsp;2. display items that seller has made available  
+### Next-up  
+&nbsp;&nbsp;&nbsp;&nbsp;1. allow buyers to view sellers and place orders  
