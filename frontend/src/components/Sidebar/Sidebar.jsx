@@ -41,6 +41,7 @@ const Sidebar = () => {
         console.log(result.message);
         setLoggedIn(false);
         navigate(result.redirect);
+        window.location.reload(); // Refresh the page to reflect the logged-out state (this is a hacky way to refresh navbar tabs pls change later)
       }
     } catch (error) {
       console.error("Error logging out: ", error);
