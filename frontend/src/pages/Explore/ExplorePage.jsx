@@ -1,28 +1,86 @@
-// src/pages/Explore/ExplorePage.jsx
-import React, { useState } from "react";
-import ToggleSwitch from "../../components/Explore/ToggleSwitch";
+import React, { useState, useEffect } from "react";
 import ExploreFilters from "../../components/Explore/ExploreFilters";
-import FeaturedGrid from "../../components/Home/FeaturedGrid";
+import SellerCard from "../../components/Explore/SellerCard";
 
 const ExplorePage = () => {
-  const [activeTab, setActiveTab] = useState("Food");
+  const [cooks, setCooks] = useState([]);
+  const [filteredCooks, setFilteredCooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [filters, setFilters] = useState({ specialty: "", rating: "" });
 
-  const foodItems = [
-    { image: "/assets/dish1.jpg", name: "Spaghetti Carbonara", description: "Delicious homemade Italian food." },
-    { image: "/assets/dish2.jpg", name: "Tacos Al Pastor", description: "Authentic Mexican tacos with fresh salsa." },
-  ];
+  useEffect(() => {
+    const fetchCooks = async () => {
+      try {
+        const response = await fetch("/sellers/getall");
+        if (!response.ok) {
+          throw new Error("Failed to fetch cooks");
+        }
+        const data = await response.json();
+        setCooks(data);
+        setFilteredCooks(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const cookItems = [
-    { image: "/assets/cook1.jpg", name: "Chef Mario", description: "Specializes in Italian cuisine." },
-    { image: "/assets/cook2.jpg", name: "Chef Rosa", description: "Expert in authentic Mexican dishes." },
-  ];
+    fetchCooks();
+  }, []);
+
+  const applyFilters = () => {
+    const filtered = cooks.filter((cook) => {
+      const matchesSpecialty = filters.specialty
+        ? cook.specialty.toLowerCase().includes(filters.specialty.toLowerCase())
+        : true;
+      const matchesRating = filters.rating
+        ? cook.rating >= parseFloat(filters.rating)
+        : true;
+
+      return matchesSpecialty && matchesRating;
+    });
+    setFilteredCooks(filtered);
+  };
+
+  const handleFilterChange = (filterName, value) => {
+    setFilters((prev) => ({ ...prev, [filterName]: value }));
+  };
+
+  useEffect(() => {
+    applyFilters();
+  }, [filters]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold text-center">Explore</h1>
-      <ToggleSwitch onChange={setActiveTab} />
-      <ExploreFilters />
-      <FeaturedGrid items={activeTab === "Food" ? foodItems : cookItems} />
+      <h1 className="text-3xl font-bold text-center mb-6">Explore Cooks</h1>
+
+      {/* Filters Section */}
+      <ExploreFilters
+        filters={filters}
+        onFilterChange={handleFilterChange}
+      />
+
+      {/* Cooks Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+        {filteredCooks.length === 0 ? (
+          <p>No cooks match your criteria.</p>
+        ) : (
+          filteredCooks.map((cook) => (
+            <SellerCard
+              key={cook.id}
+              id={cook.id}
+              name={cook.name}
+              specialty={cook.specialty}
+              rating={cook.rating}
+              image={cook.image}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 };

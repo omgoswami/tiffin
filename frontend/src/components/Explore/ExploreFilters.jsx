@@ -1,27 +1,28 @@
-// src/components/Explore/ExploreFilters.jsx
 import React from "react";
 
-const ExploreFilters = () => {
+const ExploreFilters = ({ filters, onFilterChange }) => {
   return (
-    <div className="flex gap-4 my-4 justify-center">
+    <div className="flex flex-wrap gap-4 mb-6">
+      {/* Specialty Filter */}
       <input
         type="text"
-        placeholder="Location"
+        placeholder="Search by Specialty"
+        value={filters.specialty}
+        onChange={(e) => onFilterChange("specialty", e.target.value)}
         className="border rounded px-4 py-2"
       />
-      <input
-        type="text"
-        placeholder="Cuisine"
+
+      {/* Rating Filter */}
+      <select
+        value={filters.rating}
+        onChange={(e) => onFilterChange("rating", e.target.value)}
         className="border rounded px-4 py-2"
-      />
-      <input
-        type="text"
-        placeholder="Price Range"
-        className="border rounded px-4 py-2"
-      />
-      <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-        Search
-      </button>
+      >
+        <option value="">Filter by Rating</option>
+        <option value="4.5">4.5 and above</option>
+        <option value="4.0">4.0 and above</option>
+        <option value="3.5">3.5 and above</option>
+      </select>
     </div>
   );
 };
