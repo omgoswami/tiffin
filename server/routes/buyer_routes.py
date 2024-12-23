@@ -1,7 +1,7 @@
 from flask import Blueprint, request
-from app import db
-from app.models import Buyer
-from app.serializers import BuyerSchema
+from server import db
+from server.models import Buyer
+from server.serializers import BuyerSchema
 
 buyer_bp = Blueprint('buyer', __name__)
 buyer_schema = BuyerSchema()

@@ -69,3 +69,30 @@ Tailwind CSS Suggestions:
 Use vibrant colors for food-related themes (e.g., warm reds, oranges, and greens).
 Clean, modern typography for readability.
 Focus on responsive design for seamless desktop and mobile experiences.
+
+
+After everything above minus the functinoality to leave reviews was done this is what chatgpt said:
+
+What’s Missing or Could Be Enhanced
+Buyers Leaving Reviews for Cooks
+
+Add a "Leave a Review" button on completed orders in the Orders Page.
+Connect this to the review section on the Profile Page.
+Saved Dishes or Cooks
+
+Add functionality to "Save" food items or cooks in the Explore Page or Food Details Page.
+Display these in a Wishlist section in the Profile Page.
+Order History for Buyers
+
+Display a list of completed orders in the Profile Page under a separate tab.
+Refine Explore Page
+
+Add placeholders for featured cooks or food images.
+Improve filter inputs with dropdowns or sliders for price ranges.
+Color Themes
+
+Incorporate suggested color themes (e.g., reds, oranges, greens) for a more vibrant interface.
+Future Enhancements
+
+Map-based meeting spot suggestions (requires API integration).
+Auto-archive listings when expired.
