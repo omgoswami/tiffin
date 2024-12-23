@@ -37,7 +37,7 @@ const Sidebar = () => {
         },
       });
       if (response.ok) {
-        const result = response.json();
+        const result = await response.json();
         console.log(result.message);
         setLoggedIn(false);
         navigate(result.redirect);
