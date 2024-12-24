@@ -50,3 +50,33 @@ def submit():
 
     db.session.commit()
     return order_schema.jsonify({"message": "Order submitted successfully", "order_id": order.id}), 201
+
+@order_bp.route('/buyer', methods=['GET'])
+def get_buyer_orders():
+    try:
+        buyer_id = session.get('buyer_id')
+        if not buyer_id:
+            return jsonify({"error": "Not logged in as a buyer"}), 401
+
+        orders = Order.query.filter_by(buyer_id=buyer_id).all()
+        if not orders:
+            return jsonify({"message": "No orders available for this buyer"}), 200
+
+        return orders_schema.jsonify(orders)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@order_bp.route('/seller', methods=['GET'])
+def get_seller_orders():
+    try:
+        seller_id = session.get('seller_id')
+        if not seller_id:
+            return jsonify({"error": "Not logged in as a seller"}), 401
+
+        orders = Order.query.filter_by(seller_id=seller_id).all()
+        if not orders:
+            return jsonify({"message": "No orders available for this seller"}), 200
+
+        return orders_schema.jsonify(orders)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
