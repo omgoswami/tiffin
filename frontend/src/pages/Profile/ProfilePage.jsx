@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import ProfileTabs from "../../components/Profile/ProfileTabs";
 import FeaturedGrid from "../../components/Home/FeaturedGrid";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { checkSession } from "../../utils/session";
 
 const ProfilePage = () => {
   const user = useParams();
+  const navigate = useNavigate();
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const fetchSellerItems = async () => {
@@ -29,6 +32,34 @@ const ProfilePage = () => {
 
     fetchSellerItems();
   }, []);
+
+  useEffect(() => {
+    const verifySession = async () => {
+      const { loggedIn } = await checkSession();
+      setLoggedIn(loggedIn);
+    };
+    verifySession();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/users/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result.message);
+        setLoggedIn(false);
+        navigate(result.redirect);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Error logging out: ", error);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -80,6 +111,15 @@ const ProfilePage = () => {
           </div>
         )}
       </div>
+
+      {loggedIn && (
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-4"
+        >
+          Logout
+        </button>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-
+{/* useless until we come up with a feed type thing maybe or an all-access summary page */}
 const DashboardPage = () => {
   return (
     <div className="dashboard-page">
