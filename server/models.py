@@ -1,5 +1,15 @@
 from server import db
 
+# association table for Orders and Items
+# each row represents an Item that was part of an Order -- an Order can be 
+# retrieved by getting all Items in order_items with the same order_id
+order_items = db.Table(
+    'order_items',
+    db.Column('order_id', db.ForeignKey('order.id'), primary_key=True),
+    db.Column('item_id', db.ForeignKey('item.id'), primary_key=True),
+    db.Column('quantity', db.Integer, nullable=False, default=1),
+    db.Column('price', db.Float, nullable=False)
+)
 
 class CustomUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,6 +39,7 @@ class Seller(db.Model):
     # relationships 
     user = db.relationship('CustomUser', backref='seller', lazy=True)
     items = db.relationship('Item', back_populates='seller', lazy=True)
+    orders = db.relationship('Order', back_populates='seller', lazy=True)
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,14 +54,18 @@ class Item(db.Model):
 
     # relationships
     seller = db.relationship('Seller', back_populates='items')
+    orders = db.relationship('Order', secondary=order_items, back_populates='items')
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
     buyer_id = db.Column(db.Integer, db.ForeignKey('buyer.id'), nullable=False)
+    seller_id = db.Column(db.Integer, db.ForeignKey('seller.id'), nullable=False)
     # quantity = db.Column(db.Integer, nullable=False)
     total_price = db.Column(db.Float, nullable=False)
 
     # Relationships
     # item = db.relationship('Item', lazy=True)
     buyer = db.relationship('Buyer', back_populates='orders')
+    seller = db.relationship('Seller', back_populates='orders')
+    items = db.relationship('Item', secondary=order_items, back_populates='orders')

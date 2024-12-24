@@ -73,7 +73,7 @@ const ExplorePage = () => {
             <SellerCard
               key={cook.id}
               id={cook.id}
-              name={cook.name}
+              name={cook.username}
               specialty={cook.specialty}
               rating={cook.rating}
               image={cook.image}

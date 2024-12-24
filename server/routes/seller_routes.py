@@ -27,7 +27,8 @@ def create_seller_profile():
 def get_sellers():
     all_users = Seller.query.all()
     result = sellers_schema.dump(all_users)
-    return sellers_schema.jsonify(result)
+
+    return jsonify(result)
 
 @seller_bp.route('/additem', methods=['POST'])
 def add_item():
@@ -82,4 +83,18 @@ def get_items():
         return items_schema.dump(items)
     
     except Exception as e:
+        return seller_schema.jsonify({"error": str(e)}), 500
+    
+@seller_bp.route('/items/<seller_id>')
+def get_seller_items(seller_id):
+    try:
+        seller = Seller.query.get(seller_id)
+        if not seller:
+            return seller_schema.jsonify({"error": "Seller with this id not found"}), 404
+
+        items = Item.query.filter_by(seller_id=seller_id).all()
+        return items_schema.dump(items)
+    
+    except Exception as e:
+        print(str(e))
         return seller_schema.jsonify({"error": str(e)}), 500

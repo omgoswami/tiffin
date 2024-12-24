@@ -26,11 +26,13 @@ def create_app():
     from server.routes.user_routes import user_bp
     from server.routes.buyer_routes import buyer_bp
     from server.routes.seller_routes import seller_bp
+    from server.routes.order_routes import order_bp
     from server.routes.routes import main
 
     app.register_blueprint(user_bp, url_prefix='/users')
     app.register_blueprint(buyer_bp, url_prefix='/buyers')
     app.register_blueprint(seller_bp, url_prefix='/sellers')
+    app.register_blueprint(order_bp, url_prefix='/orders')
     app.register_blueprint(main)
 
     return app
