@@ -16,6 +16,7 @@ const PostListingPage = () => {
   const [price, setPrice] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const [availableQuantity, setAvailableQuantity] = useState('');
 
   const formData = new FormData();
   formData.append('dishName', dishName);
@@ -23,6 +24,7 @@ const PostListingPage = () => {
   formData.append('price', price);
   formData.append('startTime', startTime);
   formData.append('endTime', endTime);
+  formData.append('availableQuantity', availableQuantity);
 
   const [message, setMessage] = useState('');
 
@@ -38,7 +40,6 @@ const PostListingPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
-    // Add backend functionality to post the listing
     try {
       const response = await fetch('/sellers/additem', {
         method: 'POST',
@@ -101,6 +102,14 @@ const PostListingPage = () => {
             className="border rounded px-4 py-2"
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
+          />
+          <input
+            id="availableQuantity"
+            type="number"
+            placeholder="Available Quantity"
+            className="border rounded px-4 py-2"
+            value={availableQuantity}
+            onChange={(e) => setAvailableQuantity(e.target.value)}
           />
         </div>
         <button

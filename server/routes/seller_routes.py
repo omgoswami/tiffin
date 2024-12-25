@@ -44,6 +44,7 @@ def add_item():
     price = request.form.get('price')
     startTime = request.form.get('startTime')
     endTime = request.form.get('endTime')
+    availableQuantity = request.form.get('availableQuantity')
 
     start_timestamp = datetime.strptime(startTime, "%H:%M")
     start_timestamp = start_timestamp.replace(year=datetime.now().year,
@@ -62,7 +63,8 @@ def add_item():
         description=description,
         price=price,
         startTime=start_timestamp,
-        endTime=end_timestamp
+        endTime=end_timestamp,
+        quantity=availableQuantity
     )
 
     # add to items table

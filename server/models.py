@@ -48,6 +48,8 @@ class Item(db.Model):
     description = db.Column(db.Text, nullable=True)
     price = db.Column(db.Float, nullable=False)
     availability = db.Column(db.Boolean, default=True)
+    quantity = db.Column(db.Integer, default=0)
+    
     # TODO: include dates as well as times
     startTime = db.Column(db.DateTime(timezone=True), default=db.func.now())
     endTime = db.Column(db.DateTime(timezone=True))
