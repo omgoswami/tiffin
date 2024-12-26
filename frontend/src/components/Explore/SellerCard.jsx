@@ -10,14 +10,30 @@ const SellerCard = ({ id, name, specialty, rating, image }) => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch(`sellers/items/${id}`);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch items: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
+        const response = fetch(`sellers/items/${id}`)
+          .then(async response => {
+            if (!response.ok) {
+              throw new Error(`Failed to fetch items: ${response.statusText}`);
+            }
+            const data = await response.json()
+            return data;
+          })
+          .then(data => {
+            const filtered = data.filter(item => item.quantity > 0);
+            setItems(filtered);
+          })
+          .catch(error => {
+            setError(error.message);
+            console.error("Error fetching items:", error);
+          });
+
+
+
+
+        /*const filteredResponse = response.filter(item => item.availableQuantity > 0);
+        const data = await filteredResponse.json();
         console.log(data);
-        setItems(data);
+        setItems(data);*/
       } catch (err) {
         setError(err.message);
         console.error("Error fetching items:", err);
@@ -107,7 +123,6 @@ return (
               <div className="mb-4">
                 <label className="block mb-2 font-bold">Select Items:</label>
                 <div>
-                  {/* Replace this array with the seller's items fetched dynamically */}
                   {items.map((item) => (
                     <div key={item.id} className="flex items-center mb-2">
                         <span className="mr-2">{item.name}</span>
@@ -115,6 +130,8 @@ return (
                           type="number"
                           name={item.id}
                           min="0"
+                          /* silently disallow ordering more than available # */
+                          max={item.quantity} 
                           placeholder="Qty"
                           className="border rounded p-1 w-16 text-center"
                           onChange={(e) => handleQuantityChange(item.id, e.target.value)}

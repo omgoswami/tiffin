@@ -123,6 +123,7 @@ def get_users():
 
 @user_bp.route('/upload-profile-image', methods=['POST'])
 def upload_profile_image():
+    # TODO: remove the previous profile picture from S3 immediately after upload
     if 'user_id' not in session:
         return jsonify({"error": "User is not logged in."}), 403
 
@@ -132,10 +133,6 @@ def upload_profile_image():
 
     file_extension = os.path.splitext(file.filename)[1]
     file_name = f"{uuid.uuid4().hex}{file_extension}"
-    print(file_name)
-    print("I am here")
-    print(os.getenv('S3_BUCKET_NAME'))
-    print(file.content_type)
     try:
         s3.upload_fileobj(
             file,
@@ -143,15 +140,8 @@ def upload_profile_image():
             file_name,
             ExtraArgs={'ContentType': file.content_type}
         )
-
-        '''s3.upload_file(
-            file_name,
-            os.getenv('S3_BUCKET_NAME')
-        )'''
         
-
         file_url = f"https://{os.getenv('S3_BUCKET_NAME')}.s3.{os.getenv('AWS_DEFAULT_REGION')}.amazonaws.com/{file_name}"
-        print(file_url)
         user = CustomUser.query.get(session['user_id'])
         if not user:
             return jsonify({"error": "User not found."}), 404

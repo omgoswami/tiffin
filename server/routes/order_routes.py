@@ -47,6 +47,7 @@ def submit():
                 price=price
             )
         )
+        item.quantity = item.quantity - quantity;
 
     db.session.commit()
     return order_schema.jsonify({"message": "Order submitted successfully", "order_id": order.id}), 201
