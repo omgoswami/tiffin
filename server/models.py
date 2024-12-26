@@ -18,6 +18,7 @@ class CustomUser(db.Model):
     password = db.Column(db.String(200), nullable=False)
     is_buyer = db.Column(db.Boolean, default=False)
     is_seller = db.Column(db.Boolean, default=False)
+    profile_image_url = db.Column(db.String(255), nullable=True)
 
     def __repr__(self):
         return f"CustomUser {self.username}"

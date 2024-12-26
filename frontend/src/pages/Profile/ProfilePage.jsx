@@ -12,6 +12,9 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [profileImage, setProfileImage] = useState("");
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     const fetchSellerItems = async () => {
@@ -40,6 +43,47 @@ const ProfilePage = () => {
     };
     verifySession();
   }, []);
+
+  useEffect(() => {
+    // get user
+    fetch('/users/get-user-profile')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.profile_image_url) {
+          setProfileImageUrl(data.profile_image_url);
+        }
+      });
+  }, []);
+
+  const handleProfileImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("profileImage", file);
+      setUploading(true);
+
+      fetch('/users/upload-profile-image', {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setUploading(false);
+          if (data.success) {
+            setProfileImage(data.newImageUrl);
+            setProfileImageUrl(data.newImageUrl);
+            console.log(profileImage);
+            console.log(profileImageUrl);
+          } else {
+            alert("Failed to upload profile image.");
+          }
+        })
+        .catch((error) => {
+          setUploading(false);
+          console.error("Error uploading image: ", error);
+        });
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -72,7 +116,21 @@ const ProfilePage = () => {
   return (
     <div className="p-8">
       <div className="flex items-center space-x-4">
-        <img src="/assets/cook1.jpg" alt="Profile" className="w-24 h-24 rounded-full object-cover" />
+        <img src={profileImageUrl} alt="Profile" className="w-24 h-24 rounded-full object-cover" />
+        <button
+          onClick={() => document.getElementById("profileImageInput").click()}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Edit Photo
+        </button>
+        <input
+          type="file"
+          id="profileImageInput"
+          accept="image/*"
+          onChange={handleProfileImageChange}
+          className="hidden" // hide  default file input
+        />
+        {uploading && <div>Uploading...</div>}
         <div>
           <h1 className="text-2xl font-bold">Chef {user.username}</h1>
           <p className="text-gray-600">Specializes in Italian and Mediterranean cuisine.</p>

@@ -2,10 +2,24 @@ from flask import Blueprint, request, jsonify, session
 from server import db
 from server.models import CustomUser, Buyer, Seller
 from server.serializers import CustomUserSchema
+import boto3
+import os
+import uuid
+from dotenv import load_dotenv
+
+load_dotenv()
 
 user_bp = Blueprint('user', __name__)
 user_schema = CustomUserSchema()
 users_schema = CustomUserSchema(many=True)
+
+
+s3 = boto3.client(
+    's3',
+    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+    region_name=os.getenv('AWS_DEFAULT_REGION')
+)
 
 @user_bp.route('/login', methods=['GET','POST'])
 def login():
@@ -106,3 +120,58 @@ def get_users():
     all_users = CustomUser.query.all()
     result = users_schema.dump(all_users)
     return users_schema.jsonify(result)
+
+@user_bp.route('/upload-profile-image', methods=['POST'])
+def upload_profile_image():
+    if 'user_id' not in session:
+        return jsonify({"error": "User is not logged in."}), 403
+
+    file = request.files.get('profileImage')
+    if not file:
+        return jsonify({"error": "No file uploaded."}), 400
+
+    file_extension = os.path.splitext(file.filename)[1]
+    file_name = f"{uuid.uuid4().hex}{file_extension}"
+    print(file_name)
+    print("I am here")
+    print(os.getenv('S3_BUCKET_NAME'))
+    print(file.content_type)
+    try:
+        s3.upload_fileobj(
+            file,
+            os.getenv('S3_BUCKET_NAME'),
+            file_name,
+            ExtraArgs={'ContentType': file.content_type}
+        )
+
+        '''s3.upload_file(
+            file_name,
+            os.getenv('S3_BUCKET_NAME')
+        )'''
+        
+
+        file_url = f"https://{os.getenv('S3_BUCKET_NAME')}.s3.{os.getenv('AWS_DEFAULT_REGION')}.amazonaws.com/{file_name}"
+        print(file_url)
+        user = CustomUser.query.get(session['user_id'])
+        if not user:
+            return jsonify({"error": "User not found."}), 404
+
+        user.profile_image_url = file_url
+        db.session.commit()
+
+        return jsonify({"success": True, "newImageUrl": file_url}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)}), 500
+
+@user_bp.route('/get-user-profile', methods=['GET'])
+def get_user_profile():
+    user_id = session.get('user_id')
+    try:
+        user = CustomUser.query.get(user_id)
+        if not user:
+            return user_schema.jsonify({"error": "User with this id not found"}), 404
+        return user_schema.dump(user)
+    except Exception as e:
+        return user_schema.jsonify({"error": str(e)}), 500
