@@ -1,5 +1,7 @@
 # ignore virtual environment folder
 .venv/
+venv/
+
 # ignore file storing environment variables
 .env
 # ignore caches
