@@ -25,9 +25,4 @@
 &nbsp;&nbsp;&nbsp;&nbsp;1. stateful UX -- buyers and sellers should only see what is relevant to them  
 &nbsp;&nbsp;&nbsp;&nbsp;2. make sure that only items marked "available" are displayed (tweak SQL query in /sellers/items)  
 ### Next-up  
-&nbsp;&nbsp;&nbsp;&nbsp;1. allow buyers to view sellers and place orders  
-<<<<<<< HEAD
-
-hello testing
-=======
->>>>>>> 3cc8970035c1529585873d4798e6d035d5f9dd8c
+&nbsp;&nbsp;&nbsp;&nbsp;1. allow buyers to view sellers and place orders
