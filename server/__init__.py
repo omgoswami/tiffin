@@ -15,6 +15,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config.from_object('config.Config')
 
     db.init_app(app)
@@ -22,10 +23,10 @@ def create_app():
     migrate.init_app(app, db)
 
     # Register blueprints
-    from app.routes.user_routes import user_bp
-    from app.routes.buyer_routes import buyer_bp
-    from app.routes.seller_routes import seller_bp
-    from app.routes.routes import main
+    from server.routes.user_routes import user_bp
+    from server.routes.buyer_routes import buyer_bp
+    from server.routes.seller_routes import seller_bp
+    from server.routes.routes import main
 
     app.register_blueprint(user_bp, url_prefix='/users')
     app.register_blueprint(buyer_bp, url_prefix='/buyers')

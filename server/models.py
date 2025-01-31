@@ -1,4 +1,4 @@
-from app import db
+from server import db
 
 
 class CustomUser(db.Model):
@@ -36,7 +36,10 @@ class Item(db.Model):
     name = db.Column(db.String(150), nullable=False)
     description = db.Column(db.Text, nullable=True)
     price = db.Column(db.Float, nullable=False)
-    availability = db.Column(db.Boolean, default=False)
+    availability = db.Column(db.Boolean, default=True)
+    # TODO: include dates as well as times
+    startTime = db.Column(db.DateTime(timezone=True), default=db.func.now())
+    endTime = db.Column(db.DateTime(timezone=True))
 
     # relationships
     seller = db.relationship('Seller', back_populates='items')
